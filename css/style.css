@@ -65,6 +65,9 @@ body {
   line-height: 22px;
   color: #000000;
 }
+body.active {
+  overflow: hidden;
+}
 .heading {
   text-transform: capitalize;
   font-family: 'Roboto';
@@ -84,9 +87,13 @@ body {
 header {
   padding-top: 25px;
   background: #F1F1F1;
+  position: relative;
 }
 header.inside-page {
   padding-bottom: 25px;
+}
+header .open-menu {
+  position: relative;
 }
 header .top {
   display: flex;
@@ -98,6 +105,17 @@ header .top {
 }
 header .top .search {
   min-width: 200px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+header .top .search .open-search {
+  margin-left: 10px;
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  padding: 5px;
+  display: none;
 }
 header .top .user-link {
   min-width: 200px;
@@ -189,6 +207,10 @@ header a:hover {
 }
 .collections .container button:hover {
   background: #777777;
+}
+.collections .container a {
+  text-decoration: none;
+  color: white;
 }
 .collections .container .shop-img {
   margin-right: 100px;
@@ -305,11 +327,6 @@ header a:hover {
 }
 .new-products .container .tabs li {
   margin-right: 40px;
-}
-.new-products .container .tabs li:last-child {
-  margin-right: 0;
-}
-.new-products .container .tabs li a {
   text-decoration: none;
   font-weight: 600;
   font-size: 16px;
@@ -317,15 +334,23 @@ header a:hover {
   color: #777777;
   text-transform: capitalize;
   transition: color 0.5s;
+  cursor: pointer;
 }
-.new-products .container .tabs li a.active,
-.new-products .container .tabs li a:hover {
+.new-products .container .tabs li.active,
+.new-products .container .tabs li:hover {
   color: #000000;
+}
+.new-products .container .tabs li:last-child {
+  margin-right: 0;
 }
 .new-products .product-wrap {
   display: flex;
   flex-wrap: wrap;
   margin: 0 -12px;
+  display: none;
+}
+.new-products .product-wrap.products-opened {
+  display: flex;
 }
 .new-products .product-wrap .item {
   width: 25%;
@@ -500,7 +525,7 @@ header a:hover {
 .best-seller .container {
   padding-bottom: 140px;
 }
-.best-seller .container .tabs {
+.best-seller .container .tabs-two {
   list-style: none;
   display: flex;
   align-items: center;
@@ -508,7 +533,7 @@ header a:hover {
   margin: 0 0 30px 0;
   position: relative;
 }
-.best-seller .container .tabs .show {
+.best-seller .container .tabs-two .show {
   position: absolute;
   right: 0;
   display: flex;
@@ -517,7 +542,7 @@ header a:hover {
   width: 88px;
   height: 32px;
 }
-.best-seller .container .tabs .show a {
+.best-seller .container .tabs-two .show a {
   text-align: center;
   display: block;
   font-weight: 400;
@@ -529,13 +554,8 @@ header a:hover {
   text-decoration: none;
   padding: 5px 13px 5px 12px;
 }
-.best-seller .container .tabs li {
+.best-seller .container .tabs-two li {
   margin-right: 40px;
-}
-.best-seller .container .tabs li:last-child {
-  margin-right: 0;
-}
-.best-seller .container .tabs li a {
   text-decoration: none;
   font-weight: 600;
   font-size: 16px;
@@ -543,14 +563,21 @@ header a:hover {
   color: #777777;
   text-transform: capitalize;
   transition: 0.5s;
+  cursor: pointer;
 }
-.best-seller .container .tabs li a.active,
-.best-seller .container .tabs li a:hover {
+.best-seller .container .tabs-two li.active,
+.best-seller .container .tabs-two li:hover {
   color: #000000;
 }
+.best-seller .container .tabs-two li:last-child {
+  margin-right: 0;
+}
 .best-seller .best-wrap {
-  display: flex;
   margin: 0 -12px;
+  display: none;
+}
+.best-seller .best-wrap.products-opened-two {
+  display: flex;
 }
 .best-seller .best-wrap .item {
   width: 25%;
@@ -1089,6 +1116,10 @@ footer .sub-line .sub-flex .scroll {
   header .top .search a {
     line-height: 0;
   }
+  header .search-input {
+    width: 200px;
+    left: 46px;
+  }
   .open-menu {
     display: block;
     height: 17px;
@@ -1341,6 +1372,10 @@ footer .sub-line .sub-flex .scroll {
   header .top .user-link {
     min-width: 80px;
   }
+  header .search-input {
+    width: 200px;
+    left: -62px;
+  }
   .collections .container {
     margin-top: -60px;
     display: flex;
@@ -1424,7 +1459,7 @@ footer .sub-line .sub-flex .scroll {
   .new-products .container .product-wrap {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 0 15px 0 ;
+    margin: 0 0 15px 0;
   }
   .new-products .container .product-wrap .item {
     width: 50%;
@@ -1647,4 +1682,44 @@ footer .sub-line .sub-flex .scroll {
     height: 30px;
     width: 20px;
   }
+  header .search-input {
+    width: 95%;
+    left: -140px;
+    top: 45px;
+    z-index: 12;
+  }
+}
+.overlay {
+  background: #000000;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 10;
+  display: none;
+  top: 0;
+  left: 0;
+}
+.search-input {
+  position: absolute;
+  left: 40px;
+  top: -5px;
+  width: 350px;
+  height: 30px;
+  border-radius: 15px;
+  border: none;
+  border: outline;
+  padding: 10px;
+  display: none;
+}
+.search-input.active {
+  display: block;
+}
+.accesories {
+  margin-top: 50px;
+}
+.shop-now {
+  margin-top: 50px;
+}
+.clothing-shoes {
+  margin-top: 50px;
 }
